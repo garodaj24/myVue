@@ -1,44 +1,37 @@
 <template>
   <div class="home">
-    <div @click="alertOnClick">{{title}}</div>
-    <img :alt="imageAlt" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <ul>
-      <li v-for="(todo, index) in todoList" :key="index">{{todo.employee_name}}</li>
-    </ul>
-    <button @click="addNewTodo">Add new todo</button>
+    <NewTodo />
+    <div v-for="(todo, index) in todoList" :key="index">
+      <Todo :todo="todo"/>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Todo from "@/components/Todo.vue";
+import NewTodo from "@/components/NewTodo.vue";
 import { mapGetters } from 'vuex';
 
 export default {
   name: "Home",
   components: {
-    HelloWorld
+    Todo,
+    NewTodo
   },
   data() {
     return {
       imageAlt: "Vue logo",
-      garodMessage: "Hello World",
-      componentMode: true,
+      userToken: localStorage.getItem('userToken'),
     }
   },
   computed: {
-    title() {
-      return this.componentMode ? "this is true" : "this is false";
-    },
     ...mapGetters({
       todoList: 'todo/getTodoList',
+      user: 'user/getUser',
     })
   },
   methods: {
-    alertOnClick() {
-      this.garodMessage = this.garodMessage === "noice!" ? "Hello World" : "noice!";
-    },
     addNewTodo() {
       this.$store.commit("todo/addNewTodo", {
         employee_age: "26",
@@ -51,6 +44,9 @@ export default {
   },
   created() {
     this.$store.dispatch('todo/getAllTodos')
+    if (this.userToken) {
+      this.$store.dispatch('user/getUserProfile')
+    }
   }
 };
 </script>
