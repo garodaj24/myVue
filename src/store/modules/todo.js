@@ -20,30 +20,31 @@ const actions = {
                 commit('setTodoList', res.data)
             })
     },
-    setNewTodo ({ commit }, payload) {
+    addNewTodo ({ commit }, payload) {
         axios.post("/todos", {
             name: payload.name
         }).then((res) => {
-            if (res.status === 200) {
-                commit("addNewTodo", res.data)
-            }
+            commit("addNewTodo", res.data)
         })
     },
     updateTodo ({ commit }, payload) {
         axios.put(`/todos/${payload.id}`, {
-            name: payload.newTodoName
+            name: payload.newTodoName,
         }).then((res) => {
-            if (res.status === 200) {
-                commit("updateTodo", res.data)
-            }
+            commit("updateTodo", res.data)
         })
     },
     deleteTodo ({ commit }, payload) {
         axios.delete(`/todos/${payload.id}`)
             .then((res) => {
-                if (res.status === 200) {
-                    commit("deleteTodo", res.data)
-                }
+                commit("deleteTodo", res.data)
+        })
+    },
+    completeTodo ({ commit }, payload) {
+        axios.put(`/todos/${payload.id}/complete`, {
+            completed: payload.completed
+        }).then((res) => {
+            commit('completeTodo', res.data)
         })
     }
 }
@@ -54,18 +55,19 @@ const mutations = {
         state.todoList = todoList
     },
     addNewTodo (state, todo) {
-        state.todoList.push(todo)
+        state.todoList.unshift(todo)
     },
     updateTodo (state, todo) {
-        state.todoList.forEach((eachTodo) => {
-            if (eachTodo.id === todo.id) {
-                eachTodo.name = todo.name
-            }
-        })
+        let updatedTodo = state.todoList.find((eachTodo) => eachTodo.id === todo.id)
+        updatedTodo.name = todo.name
     },
     deleteTodo (state, todo) {
         let newTodoList = state.todoList.filter((eachTodo) => eachTodo.id !== todo.id)
         state.todoList = newTodoList
+    },
+    completeTodo (state, todo) {
+        let completedTodo = state.todoList.find((eachTodo) => eachTodo.id === todo.id)
+        completedTodo.completed_at = todo.completed_at
     }
 }
 

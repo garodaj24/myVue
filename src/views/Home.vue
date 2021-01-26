@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <NewTodo />
-    <div v-for="(todo, index) in todoList" :key="index">
+    <div v-for="(todo) in todoList" :key="todo.id">
       <Todo :todo="todo"/>
     </div>
   </div>
@@ -21,8 +21,12 @@ export default {
   },
   data() {
     return {
-      imageAlt: "Vue logo",
       userToken: localStorage.getItem('userToken'),
+    }
+  },
+  watch: {
+    todoList() {
+      console.log(this.todoList);
     }
   },
   computed: {
@@ -30,17 +34,6 @@ export default {
       todoList: 'todo/getTodoList',
       user: 'user/getUser',
     })
-  },
-  methods: {
-    addNewTodo() {
-      this.$store.commit("todo/addNewTodo", {
-        employee_age: "26",
-        employee_name: "Garod Ajemian",
-        employee_salary: "320800",
-        id: "1",
-        profile_image: ""
-      })
-    }
   },
   created() {
     this.$store.dispatch('todo/getAllTodos')

@@ -1,23 +1,26 @@
 <template>
     <div class="todo">
-      <input type="checkbox" id="checkbox" v-model="checked">
+      <input @change="completeTodo" type="checkbox" id="checkbox" v-model="checked">
+
       <div class="todoInfo">
-        <input v-if="edit" type="text" v-model="newTodoName" />
-        <div v-else>{{todo.name}}</div>
-        <div>{{todo.created_at.split("T")[0] + " " + todo.created_at.split("T")[1].split(".")[0]}}</div>
+        <input v-if="edit" type="text" v-model="clonedTodo.name" />
+        <div v-else>{{clonedTodo.name}}</div>
+        <div>{{clonedTodo.created_at.split("T")[0] + " " + clonedTodo.created_at.split("T")[1].split(".")[0]}}</div>
       </div>
+
       <div v-if="edit" class="todoModify">
-        <div @click="saveTodo(todo.id)">Save</div>
+        <div @click="saveTodo()">Save</div>
       </div>
       <div v-else class="todoModify">
-        <div @click="editTodo">Edit</div>
-        <div @click="deleteTodo(todo.id)">Delete</div>
+        <div @click="editTodo(true)">Edit</div>
+        <div @click="deleteTodo()">Delete</div>
       </div>
       <div v-if="checked" class="todoChecked"></div>
     </div>
 </template>
 
 <script>
+import _ from 'lodash';
 
 export default {
     name: "Todo",
@@ -29,28 +32,40 @@ export default {
     },
     data() {
         return {
-            checked: false,
             edit: false,
-            newTodoName: this.todo.name
+            clonedTodo: null,
+            checked: false,
         }
     },
     methods: {
-        editTodo() {
-            this.edit = true
+        editTodo(status) {
+            this.edit = status
         },
-        saveTodo(todoId) {
-            this.edit = false
+        saveTodo() {
+            this.editTodo(false)
             this.$store.dispatch("todo/updateTodo", {
-                id: todoId,
-                newTodoName: this.newTodoName
+                id: this.clonedTodo.id,
+                newTodoName: this.clonedTodo.name
             })
         },
-        deleteTodo(todoId) {
+        deleteTodo() {
             this.$store.dispatch("todo/deleteTodo", {
-                id: todoId
+                id: this.clonedTodo.id
+            })
+        },
+        completeTodo() {
+            this.$store.dispatch("todo/completeTodo", {
+                id: this.clonedTodo.id,
+                completed: this.checked
             })
         }
     },
+    created() {
+        this.clonedTodo = _.cloneDeep(this.todo)
+        if (this.clonedTodo.completed_at) {
+            this.checked = true
+        }
+    }
 };
 </script>
 
@@ -86,6 +101,6 @@ export default {
         position: absolute;
         left: 5%;
         width: 94%;
-        border: 2px solid black;
+        border: 1px solid black;
     }
 </style>

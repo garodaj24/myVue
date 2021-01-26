@@ -19,10 +19,11 @@ export default {
     },
     methods: {
         saveTodo() {
-            if (this.newTodo !== "") {
-                this.$store.dispatch('todo/setNewTodo', {
+            if (this.newTodo.trim() !== "") {
+                this.$store.dispatch('todo/addNewTodo', {
                     name: this.newTodo
                 })
+                this.newTodo = ""
             }
         }
     },
