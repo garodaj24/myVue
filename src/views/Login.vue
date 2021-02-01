@@ -35,3 +35,27 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+    div {
+      margin-top: 100px;
+      text-align: center;
+    }
+
+    input {
+      margin-bottom: 10px;
+      width: 60%;
+      height: 30px;
+    }
+
+    button {
+      width: 80px;
+      height: 30px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+</style>

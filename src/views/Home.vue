@@ -24,11 +24,6 @@ export default {
       userToken: localStorage.getItem('userToken'),
     }
   },
-  watch: {
-    todoList() {
-      console.log(this.todoList);
-    }
-  },
   computed: {
     ...mapGetters({
       todoList: 'todo/getTodoList',
@@ -39,6 +34,8 @@ export default {
     this.$store.dispatch('todo/getAllTodos')
     if (this.userToken) {
       this.$store.dispatch('user/getUserProfile')
+    } else {
+      this.$router.push("/login")
     }
   }
 };
