@@ -7,16 +7,26 @@
 
 <script>
 import Header from '@/components/layout/Header.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: "App",
   components: {
     Header
   },
-  data() {
-    return {
-    }
+  computed: {
+    ...mapState('user', ['loggedIn']),
   },
+  methods: {
+    ...mapActions('user', [
+        'getUserProfile',
+    ])
+  },
+  created() {
+    if (this.loggedIn) {
+      this.getUserProfile();
+    }
+  }
 };
 </script>
 
