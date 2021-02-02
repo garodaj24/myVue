@@ -4,7 +4,8 @@ import router from '@/router/index';
 // initial state
 const state = () => ({
     user: null,
-    userToken: null
+    userToken: localStorage.getItem('userToken'),
+    loggedIn: !!localStorage.getItem('userToken')
 })
   
 // getters
@@ -19,14 +20,14 @@ const getters = {
 
 // actions
 const actions = {
-    login ({ commit }, payload) {
+    login ({ commit, dispatch }, payload) {
         axios.post("/auth/login", {
             email: payload.email,
             password: payload.password
         }).then((res) => {
             if (res.status === 200) {
-                localStorage.setItem('userToken', res.data.token)
                 commit("setUserToken", res.data.token)
+                dispatch("getUserProfile")
                 router.push("/")
             }
         })
@@ -35,7 +36,7 @@ const actions = {
         axios.post("/auth/logout")
             .then((res) => {
                 if (res.status === 200) {
-                    commit('setUser', null)
+                    commit('resetUser')
                     localStorage.removeItem("userToken")
                     router.go()
                 }
@@ -54,10 +55,17 @@ const actions = {
 // mutations
 const mutations = {
     setUser (state, user) {
-        state.user = user
+        state.user = user;
     },
     setUserToken (state, userToken) {
-        state.userToken = userToken
+        localStorage.setItem('userToken', userToken);
+        state.loggedIn = true;
+        state.userToken = userToken;
+    },
+    resetUser (state) {
+        state.user = []
+        state.loggedIn = false;
+        state.userToken = null;
     }
 }
 

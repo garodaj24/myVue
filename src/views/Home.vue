@@ -27,16 +27,10 @@ export default {
   computed: {
     ...mapGetters({
       todoList: 'todo/getTodoList',
-      user: 'user/getUser',
     })
   },
   created() {
     this.$store.dispatch('todo/getAllTodos')
-    if (this.userToken) {
-      this.$store.dispatch('user/getUserProfile')
-    } else {
-      this.$router.push("/login")
-    }
   }
 };
 </script>

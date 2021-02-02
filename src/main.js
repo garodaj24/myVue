@@ -10,7 +10,9 @@ axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 // intercepting every axios request to authorize it
 axios.interceptors.request.use(req => {
-  req.headers.authorization = `Bearer ${localStorage.getItem('userToken')}`
+  if (localStorage.getItem('userToken')) {
+    req.headers.authorization = `Bearer ${localStorage.getItem('userToken')}`
+  }
   return req;
 });
 

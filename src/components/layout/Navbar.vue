@@ -1,31 +1,31 @@
 <template>
     <nav>
         <ul>
-            <li><router-link to="/">Home</router-link></li>
-            <li><router-link to="/about">About</router-link></li>
-            <li>
-                <router-link v-if="!user" to="/login">Login</router-link>
-                <a v-else @click="logout">Logout</a>
-            </li>
-            <li><router-link v-if="!user" to="/register">Register</router-link></li>
+            <template v-if="!userToken">
+              <li><router-link to="/">Todo</router-link></li>
+              <li><router-link to="/about">About</router-link></li>
+              <li><router-link to="/login">Login</router-link></li>
+              <li><router-link to="/register">Register</router-link></li>
+            </template>
+            <template v-else>
+              <li v-if="user">{{user.name}}</li>
+              <li><a @click="logout">Logout</a></li>
+            </template>
         </ul>
     </nav>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: "Navbar",
-  data() {
-    return {
-      userToken: localStorage.getItem('userToken'),
-    }
-  },
   computed: {
     ...mapGetters({
       user: 'user/getUser',
-    })
+      userToken: 'user/getUserToken'
+    }),
+    ...mapState('user', ['loggedIn']),
   },
   methods: {
     logout() {

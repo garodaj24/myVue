@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   name: "Home",
   components: {},
@@ -19,11 +17,6 @@ export default {
       email: "",
       password: "",
     }
-  },
-  computed: {
-    ...mapGetters({
-      user: 'user/getUser',
-    })
   },
   methods: {
     login() {
