@@ -28,12 +28,8 @@ export default {
     logout() {
       this.$store.dispatch('user/logout', {
         token: this.userToken
-      })
+      });
     }
   },
 };
 </script>
-
-<style scoped>
-    
-</style>

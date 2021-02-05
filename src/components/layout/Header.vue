@@ -30,20 +30,8 @@ export default {
     logout() {
       this.$store.dispatch('user/logout', {
         token: this.userToken
-      })
+      });
     }
   },
 };
 </script>
-
-<style scoped>
-    header {
-        width: 100%;
-        height: 60px;
-        background-color: white;
-        position: fixed;
-        top: 0;
-        display: flex;
-        align-items: center;
-    }
-</style>

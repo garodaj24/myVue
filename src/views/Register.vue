@@ -12,7 +12,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { mapGetters } from 'vuex';
 
 export default {
@@ -38,20 +37,6 @@ export default {
       this.garodMessage = this.garodMessage === "noice!" ? "Hello World" : "noice!";
     },
     addNewTodo() {
-      // this.$store.commit("todo/addNewTodo", {
-      //   employee_age: "26",
-      //   employee_name: "Garod Ajemian",
-      //   employee_salary: "320800",
-      //   id: "1",
-      //   profile_image: ""
-      // })
-      // this.axios.post("http://127.0.0.1:8000/api/auth/login", {
-      //   email: "garod700@gmail.com",
-      //   password: "myLaravel"
-      // })
-      //   .then((res) => {
-      //     console.log(res);
-      //   })
       this.$store.dispatch('user/login', {
         email: "garod700@gmail.com",
         password: "myLaravel"
@@ -59,7 +44,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('todo/getAllTodos')
+    this.$store.dispatch('todo/getAllTodos');
   }
 };
 </script>

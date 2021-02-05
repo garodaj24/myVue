@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import User from "../views/User.vue";
 
 const routes = [
   {
@@ -26,7 +27,15 @@ const routes = [
     path: "/about",
     name: "About",
     component: () =>  import("../views/About.vue")
-  }
+  },
+  {
+    path: "/users",
+    name: "User",
+    meta: {
+      auth: true
+    },
+    component: User
+  },
 ];
 
 const router = createRouter({
@@ -35,9 +44,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem('userToken')
-  if (to.matched.some(record => record.meta.auth) && !loggedIn) next('/login')
-  else next()
+  const loggedIn = localStorage.getItem('userToken');
+  if (to.matched.some(record => record.meta.auth) && !loggedIn) next('/login');
+  else next();
 })
 
 export default router;

@@ -2,12 +2,13 @@
     <nav>
         <ul>
             <template v-if="!userToken">
-              <li><router-link to="/">Todo</router-link></li>
-              <li><router-link to="/about">About</router-link></li>
               <li><router-link to="/login">Login</router-link></li>
               <li><router-link to="/register">Register</router-link></li>
             </template>
             <template v-else>
+              <li><router-link to="/">Todo</router-link></li>
+              <li><router-link to="/users">Users</router-link></li>
+              <li><router-link to="/about">About</router-link></li>
               <li v-if="user">{{user.name}}</li>
               <li><a @click="logout">Logout</a></li>
             </template>
@@ -31,7 +32,7 @@ export default {
     logout() {
       this.$store.dispatch('user/logout', {
         token: this.userToken
-      })
+      });
     }
   },
 };

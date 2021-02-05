@@ -39,68 +39,32 @@ export default {
     },
     methods: {
         editTodo(status) {
-            this.edit = status
+            this.edit = status;
         },
         saveTodo() {
-            this.editTodo(false)
+            this.editTodo(false);
             this.$store.dispatch("todo/updateTodo", {
                 id: this.clonedTodo.id,
                 newTodoName: this.clonedTodo.name
-            })
+            });
         },
         deleteTodo() {
             this.$store.dispatch("todo/deleteTodo", {
                 id: this.clonedTodo.id
-            })
+            });
         },
         completeTodo() {
             this.$store.dispatch("todo/completeTodo", {
                 id: this.clonedTodo.id,
                 completed: this.checked
-            })
+            });
         }
     },
     created() {
-        this.clonedTodo = _.cloneDeep(this.todo)
+        this.clonedTodo = _.cloneDeep(this.todo);
         if (this.clonedTodo.completed_at) {
-            this.checked = true
+            this.checked = true;
         }
     }
 };
 </script>
-
-<style scoped>
-    .todo {
-        width: 60%;
-        margin: auto;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        border: 1px solid grey;
-        border-radius: 5px;
-        padding: 0 20px;
-        margin-top: 20px;
-        position: relative;
-    }
-    .todoInfo {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-left: 30px;
-    }
-    .todoModify {
-        display: flex;
-        justify-content: space-around;
-        width: 100px;
-    }
-    .todoModify div:hover {
-        cursor: pointer;
-    }
-    .todoChecked {
-        position: absolute;
-        left: 5%;
-        width: 94%;
-        border: 1px solid black;
-    }
-</style>

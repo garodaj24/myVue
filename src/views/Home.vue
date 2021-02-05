@@ -30,7 +30,7 @@ export default {
     })
   },
   created() {
-    this.$store.dispatch('todo/getAllTodos')
+    this.$store.dispatch('todo/getAllTodos');
   }
 };
 </script>
