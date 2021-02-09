@@ -9,7 +9,7 @@
               <li><router-link to="/">Todo</router-link></li>
               <li><router-link to="/users">Users</router-link></li>
               <li><router-link to="/about">About</router-link></li>
-              <li v-if="user">{{user.name}}</li>
+              <li v-if="user"><router-link to="/user">{{user.name}}</router-link></li>
               <li><a @click="logout">Logout</a></li>
             </template>
         </ul>

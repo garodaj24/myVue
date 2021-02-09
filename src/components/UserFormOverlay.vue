@@ -1,9 +1,9 @@
 <template>
   <div @click="toggleModal" class="modal">
     <div @click.stop class="modal-content">
-      <input class="overlayInput" type="text" placeholder="name" v-model="clonedUser.name">
-      <input class="overlayInput" type="text" placeholder="email" v-model="clonedUser.email">
-      <input class="overlayInput" type="text" placeholder="password" v-model="clonedUser.password">
+      <input class="userInput" type="text" placeholder="name" v-model="clonedUser.name">
+      <input class="userInput" type="text" placeholder="email" v-model="clonedUser.email">
+      <input class="userInput" type="text" placeholder="password" v-model="clonedUser.password">
       <button @click="saveUser" class="aedButton addButton">{{overlayType.charAt(0).toUpperCase() + overlayType.slice(1)}}</button>
     </div>
   </div>

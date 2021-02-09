@@ -20,6 +20,14 @@ axios.interceptors.request.use(req => {
   return req;
 });
 
+// intercepting every axios response to check the status (in case of expired token)
+axios.interceptors.response.use(res => {
+  if (res.status === 401) {
+    store.commit("user/resetUser");
+  }
+  return res;
+});
+
 createApp(App)
   .use(store)
   .use(router)

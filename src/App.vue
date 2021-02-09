@@ -25,6 +25,7 @@ export default {
   mounted() {
     if (this.loggedIn) {
       this.getUserProfile();
+      this.$store.dispatch('user/getAllUsers');
     }
   }
 };

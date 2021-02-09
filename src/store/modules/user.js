@@ -41,7 +41,6 @@ const actions = {
             .then((res) => {
                 if (res.status === 200) {
                     commit('resetUser');
-                    localStorage.removeItem("userToken");
                     router.go();
                 }
         })
@@ -72,13 +71,26 @@ const actions = {
         })
     },
     updateUser ({ commit }, payload) {
-        axios.put(`/users/${payload.id}`, {
-            name: payload.name,
-            email: payload.email,
-            password: payload.password
-        }).then((res) => {
-            commit("updateUser", res.data);
-        })
+        let config = {
+            header : {
+                'Content-Type' : 'multipart/form-data'
+            }
+        }
+        if (payload.formData) {
+            axios.post(`/users/${payload.id}`, payload.formData, config)
+                .then((res) => {
+                    commit("updateUser", res.data);
+                })
+        } else {
+            axios.put(`/users/${payload.id}`, {
+                name: payload.name,
+                email: payload.email,
+                password: payload.password,
+                image: payload.image
+            }).then((res) => {
+                commit("updateUser", res.data);
+            })
+        }
     },
     deleteUser ({ commit }, payload) {
         axios.delete(`/users/${payload.id}`)
@@ -102,6 +114,7 @@ const mutations = {
         state.user = [];
         state.loggedIn = false;
         state.userToken = null;
+        localStorage.removeItem("userToken");
     },
     setAllUsers (state, users) {
         state.users = users;
@@ -113,7 +126,12 @@ const mutations = {
         let updatedUser = state.users.find((eachUser) => eachUser.id === user.id);
         updatedUser.name = user.name;
         updatedUser.email = user.email;
-        updatedUser.password = user.password;
+        if (user.password) {
+            updatedUser.password = user.password;
+        }
+        if (user.image) {
+            updatedUser.image = user.image
+        }
     },
     deleteUser (state, user) {
         let newUserList = state.users.filter((eachUser) => eachUser.id !== user.id);
