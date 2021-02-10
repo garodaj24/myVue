@@ -1,6 +1,6 @@
 <template>
     <div v-if="user" id="userForm" class="userInputForm">
-        <div><img class="profileImage" :src="this.profileImage ? this.profileImage : 'http://127.0.0.1:8000/storage/images/'+user.id+'/'+user.image.storage_uuid" alt="profile image"></div>
+        <div><img v-if="profileImage || user.image" class="profileImage" :src="profileImage ? profileImage : 'http://127.0.0.1:8000/storage/images/'+user.id+'/'+user.image.storage_uuid" alt="profile image"></div>
         <input class="userInput" type="text" placeholder="name" v-model="user.name">
         <input class="userInput" type="text" placeholder="email" v-model="user.email">
         <input class="userInput" type="text" placeholder="password" v-model="user.password">
